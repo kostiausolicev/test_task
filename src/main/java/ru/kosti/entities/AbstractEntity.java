@@ -8,14 +8,21 @@ public abstract class AbstractEntity {
     protected final int offensive;
     protected final int damageLeft;
     protected final int damageRight;
+    protected final int maxHealth;
     protected int health;
 
-    protected AbstractEntity(int health, int defensive, int offensive, int damageLeft, int damageRight) {
+    protected AbstractEntity(int health, int defensive, int offensive, int damageLeft, int damageRight, int maxHealth) {
         this.health = health;
         this.defensive = defensive;
         this.offensive = offensive;
         this.damageLeft = damageLeft;
         this.damageRight = damageRight;
+        this.maxHealth = maxHealth;
+    }
+
+    public boolean block() {
+        return false;
+        // TODO Сделать блокирование
     }
 
     public boolean hit(AbstractEntity entity) {
@@ -55,5 +62,13 @@ public abstract class AbstractEntity {
 
     public int getDamageRight() {
         return damageRight;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getMaxHealth() {
+        return maxHealth;
     }
 }
