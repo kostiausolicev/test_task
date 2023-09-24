@@ -12,6 +12,7 @@ public class GameScreen extends JPanel {
     private int monsterIndex = 1;
     private final Player player;
     private final JFrame parent;
+    private final Font font = new Font("Arial", Font.BOLD, 16);
 
     public GameScreen(final JFrame parent) {
         this.parent = parent;
@@ -46,12 +47,17 @@ public class GameScreen extends JPanel {
     private void drawArea(Graphics2D g2d) {
         g2d.drawLine(0, 75, parent.getWidth(), 75);
         g2d.drawLine(0, (int)(parent.getHeight() * 0.8d), parent.getWidth(), (int)(parent.getHeight() * 0.8d));
+
+        FontMetrics fontMetrics = g2d.getFontMetrics();
+        String text = "Удар - A, Блок - B, Лечение H (английская раскладка) ";
+        g2d.drawString(text, (parent.getWidth() - fontMetrics.stringWidth(text)) / 2, (int)(parent.getHeight() * 0.8d) + 40);
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        g2d.setFont(font);
         drawArea(g2d);
         drawPlayer(g2d);
         drawMonster(g2d);
