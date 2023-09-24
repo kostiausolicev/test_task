@@ -11,8 +11,10 @@ public abstract class AbstractEntity {
     protected final int maxHealth;
     protected int health;
 
-    protected AbstractEntity(int health, int defensive, int offensive, int damageLeft, int damageRight, int maxHealth) {
-        this.health = health;
+    protected AbstractEntity(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth) {
+        if (maxHealth <= 0) throw new IllegalArgumentException("Maximum health must be greater than 0");
+        if (defensive < 0 | offensive < 0 | damageLeft < 0 | damageRight < 0) throw new IllegalArgumentException("You enter not correct args");
+        this.health = maxHealth;
         this.defensive = defensive;
         this.offensive = offensive;
         this.damageLeft = damageLeft;
@@ -36,7 +38,7 @@ public abstract class AbstractEntity {
         }
         if (!successHit) return false;
 
-        entity.takingDamage(random.nextInt(this.damageRight) + this.damageLeft);
+        entity.takingDamage(random.nextInt(this.damageRight - this.damageLeft) + this.damageLeft + 1);
         return true;
     }
 
