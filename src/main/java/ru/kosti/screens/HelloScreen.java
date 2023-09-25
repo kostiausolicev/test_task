@@ -11,11 +11,13 @@ public class HelloScreen extends JPanel {
 
     public HelloScreen(JFrame parent) {
         frame = (MainFrame) parent;
-
+        this.setFocusable(true);
         button = new JButton();
         button.setBounds(50, 50, 200, 100);
         button.setText("Начать игру");
         button.addActionListener(e -> {
+            frame.getContentPane().remove(this);
+            button.setFocusable(false);
             frame.showPanel("Game");
         });
         this.add(button);

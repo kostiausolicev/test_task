@@ -27,6 +27,7 @@ public class MainFrame extends JFrame {
     }
 
     public void showPanel(String panelName) {
+
         cardLayout.show(cardPanel, panelName);
     }
 

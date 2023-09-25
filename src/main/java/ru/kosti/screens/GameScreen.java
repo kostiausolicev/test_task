@@ -5,19 +5,44 @@ import ru.kosti.entities.extended.Player;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class GameScreen extends JPanel {
     private Monster monster;
-    private int monsterIndex = 1;
     private final Player player;
     private final JFrame parent;
-    private final Font font = new Font("Arial", Font.BOLD, 16);
+    private final Font font = new Font("Arial", Font.BOLD, 14);
 
     public GameScreen(final JFrame parent) {
         this.parent = parent;
         player = new Player(20, 20, 1, 20, 100);
-        monster = new Monster(10 * monsterIndex, 10 * monsterIndex, monsterIndex, 5 * monsterIndex, 100 * monsterIndex);
-        // TODO добавить обработку кнопок
+        monster = new Monster(10, 10, 1, 5, 100, 1);
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+        this.requestFocus();
+        this.start();
+    }
+
+    private void start() {
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                // TODO Сделать вывод последнего действия на экран посередине
+                switch (e.getKeyChar()) {
+                    case 'a' -> player.hit(monster);
+                    case 'b' -> player.block();
+                    case 'h' -> player.healing();
+                }
+                repaint();
+            }
+        });
+        if (parent.getFocusOwner() == null) return;
+        while (!player.isDead()) {
+            System.out.println(11);
+        }
     }
 
     private void drawPlayer(Graphics2D g2d) {
@@ -34,17 +59,17 @@ public class GameScreen extends JPanel {
 
     private void drawHealthStatus(Graphics2D g2d) {
         // Здоровье игрока
-        g2d.drawString("Здоровье игрока", 5, 40);
+        g2d.drawString("Здоровье игрока. Осталось " + player.getHealingAmount() + " аптечек", 5, 40);
         g2d.setColor(Color.WHITE);
         g2d.drawRect(5, 50, 200, 20);
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(5, 50, 200 * (player.getHealth() / player.getMaxHealth()), 20);
+        g2d.fillRect(5, 50, (int)(200 * ((double)player.getHealth() / player.getMaxHealth())), 20);
 
         // Здоровье монстра
-        g2d.drawString("Здоровье монстра " + monsterIndex, parent.getWidth() - 220, 40);
+        g2d.drawString("Здоровье монстра " + monster.getIndex(), parent.getWidth() - 220, 40);
         g2d.drawRect(parent.getWidth() - 220, 50, 200, 20);
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(parent.getWidth() - 220, 50, 200 * (monster.getHealth() / monster.getMaxHealth()), 20);
+        g2d.fillRect(parent.getWidth() - 220, 50, (int)(200 * ((double)monster.getHealth() / monster.getMaxHealth())), 20);
     }
 
     private void drawArea(Graphics2D g2d) {

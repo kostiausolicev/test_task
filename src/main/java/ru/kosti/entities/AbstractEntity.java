@@ -32,6 +32,8 @@ public abstract class AbstractEntity {
         }
     }
 
+    public abstract AbstractEntity update();
+
     public boolean block() {
         return false;
         // TODO Сделать блокирование
@@ -52,8 +54,12 @@ public abstract class AbstractEntity {
         return true;
     }
 
-    public void takingDamage(int damage) {
+    private void takingDamage(int damage) {
         this.health -= damage;
+    }
+
+    public boolean isDead() {
+        return this.getHealth() <= 0;
     }
 
     public int getHealth() {
