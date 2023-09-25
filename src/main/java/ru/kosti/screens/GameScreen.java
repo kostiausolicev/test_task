@@ -5,7 +5,6 @@ import ru.kosti.entities.extended.Player;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class GameScreen extends JPanel {
     private Monster monster;
@@ -22,11 +21,15 @@ public class GameScreen extends JPanel {
     }
 
     private void drawPlayer(Graphics2D g2d) {
-
+        int h = 250;
+        int w = (int)(player.getSkin().getWidth(this) * ((double)h / player.getSkin().getHeight(this)));
+        g2d.drawImage(player.getSkin(), 200 - w, (int)(parent.getHeight() * 0.8d) - h, w, h, this);
     }
 
     private void drawMonster(Graphics2D g2d) {
-
+        int h = 250;
+        int w = (int)(monster.getSkin().getWidth(this) * ((double)h / monster.getSkin().getHeight(this)));
+        g2d.drawImage(monster.getSkin(), parent.getWidth() - 200, (int)(parent.getHeight() * 0.8d) - h, w, h, this);
     }
 
     private void drawHealthStatus(Graphics2D g2d) {
@@ -59,8 +62,8 @@ public class GameScreen extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setFont(font);
         drawArea(g2d);
+        drawHealthStatus(g2d);
         drawPlayer(g2d);
         drawMonster(g2d);
-        drawHealthStatus(g2d);
     }
 }

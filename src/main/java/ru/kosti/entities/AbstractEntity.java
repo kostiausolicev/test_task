@@ -1,5 +1,9 @@
 package ru.kosti.entities;
 
+import ru.kosti.Main;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.Random;
 
 public abstract class AbstractEntity {
@@ -9,9 +13,10 @@ public abstract class AbstractEntity {
     protected final int damageLeft;
     protected final int damageRight;
     protected final int maxHealth;
+    protected Image skin;
     protected int health;
 
-    protected AbstractEntity(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth) {
+    protected AbstractEntity(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth, String fileName) {
         if (maxHealth <= 0) throw new IllegalArgumentException("Maximum health must be greater than 0");
         if (defensive < 0 | offensive < 0 | damageLeft < 0 | damageRight < 0) throw new IllegalArgumentException("You enter not correct args");
         this.health = maxHealth;
@@ -20,6 +25,11 @@ public abstract class AbstractEntity {
         this.damageLeft = damageLeft;
         this.damageRight = damageRight;
         this.maxHealth = maxHealth;
+        try {
+            this.skin = new ImageIcon(Main.class.getClassLoader().getResource(fileName)).getImage();
+        } catch (NullPointerException e) {
+            this.skin = new ImageIcon(Main.class.getClassLoader().getResource("default.jpg")).getImage();
+        }
     }
 
     public boolean block() {
@@ -58,19 +68,15 @@ public abstract class AbstractEntity {
         return offensive;
     }
 
-    public int getDamageLeft() {
-        return damageLeft;
-    }
-
-    public int getDamageRight() {
-        return damageRight;
-    }
-
     public void setHealth(int health) {
         this.health = health;
     }
 
     public int getMaxHealth() {
         return maxHealth;
+    }
+
+    public Image getSkin() {
+        return skin;
     }
 }

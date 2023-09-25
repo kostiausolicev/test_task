@@ -6,7 +6,7 @@ public class Player extends AbstractEntity {
     private int healingAmount = 4;
 
     public Player(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth) {
-        super(defensive, offensive, damageLeft, damageRight, maxHealth);
+        super(defensive, offensive, damageLeft, damageRight, maxHealth, "player1_default.jpg");
     }
 
     public boolean healing() {
