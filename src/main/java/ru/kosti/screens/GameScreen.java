@@ -1,7 +1,6 @@
 package ru.kosti.screens;
 
 import ru.kosti.MainFrame;
-import ru.kosti.entities.extended.Monster;
 import ru.kosti.entities.extended.Player;
 
 import javax.swing.*;
@@ -69,7 +68,6 @@ public class GameScreen extends JPanel {
     private void drawHealthStatus(Graphics2D g2d) {
         // Здоровье игрока
         g2d.drawString("Здоровье игрока. Осталось " + player.getHealingAmount() + " аптечек", 5, 40);
-        g2d.setColor(Color.WHITE);
         g2d.drawRect(5, 50, 200, 20);
         g2d.setColor(Color.BLACK);
         g2d.fillRect(5, 50, (int)(200 * ((double)player.getHealth() / player.getMaxHealth())), 20);

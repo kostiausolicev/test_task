@@ -9,14 +9,13 @@ public class Player extends AbstractEntity {
         super(defensive, offensive, damageLeft, damageRight, maxHealth, "player_default.jpg");
     }
 
-    public boolean healing() {
+    public void healing() {
         if (healingAmount <= 0 || this.getHealth() == this.getMaxHealth()) {
-            return false;
+            return;
         }
         healingAmount--;
         int currentHealth = ((int)(this.getMaxHealth() * 0.3) + this.getHealth());
-        this.setHealth(currentHealth + currentHealth % this.getMaxHealth());
-        return true;
+        this.setHealth(currentHealth - (currentHealth >= this.getMaxHealth() ? currentHealth % this.getMaxHealth() : 0));
     }
 
     public int getHealingAmount() {
@@ -26,6 +25,7 @@ public class Player extends AbstractEntity {
     @Override
     public Player update() {
         healingAmount = 4;
+        this.setMaxHealth((int)((double)this.getHealth() * 1.5));
         this.setHealth(this.getMaxHealth());
         return this;
     }

@@ -12,9 +12,10 @@ public abstract class AbstractEntity {
     protected final int offensive;
     protected final int damageLeft;
     protected final int damageRight;
-    protected final int maxHealth;
+    protected int maxHealth;
     protected Image skin;
     protected int health;
+    protected boolean block;
 
     protected AbstractEntity(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth, String fileName) {
         if (maxHealth <= 0) throw new IllegalArgumentException("Maximum health must be greater than 0");
@@ -34,24 +35,26 @@ public abstract class AbstractEntity {
 
     public abstract AbstractEntity update();
 
-    public boolean block() {
-        return false;
+    public void block() {
         // TODO Сделать блокирование
     }
 
-    public boolean hit(AbstractEntity entity) {
+    public void hit(AbstractEntity entity) {
+        if (block) {
+            block = false;
+            return;
+        }
         var successHit = false;
-        int offensiveModifier = this.getOffensive() - entity.getDefensive() + 1;
+        int offensiveModifier = Math.abs(this.getOffensive() - entity.getDefensive()) + 1;
         for (int i = 0; i < offensiveModifier; i++) {
             if (random.nextInt(6) + 1 >= 5) {
                 successHit = true;
                 break;
             }
         }
-        if (!successHit) return false;
+        if (!successHit) return;
 
         entity.takingDamage(random.nextInt(this.damageRight - this.damageLeft) + this.damageLeft + 1);
-        return true;
     }
 
     private void takingDamage(int damage) {
@@ -84,5 +87,9 @@ public abstract class AbstractEntity {
 
     public Image getSkin() {
         return skin;
+    }
+
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
     }
 }

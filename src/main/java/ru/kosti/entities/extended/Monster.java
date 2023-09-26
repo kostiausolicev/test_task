@@ -6,7 +6,7 @@ public class Monster extends AbstractEntity {
     private int index;
 
     public Monster(int defensive, int offensive, int damageLeft, int damageRight, int maxHealth, int index) {
-        super(defensive * index, offensive * index, damageLeft * index, damageRight * index, maxHealth * index, "monster" + index + ".png");
+        super(defensive * index, offensive * index / 2, damageLeft * index, damageRight * index, maxHealth * index, "monster" + index + ".png");
         this.index = index;
     }
 

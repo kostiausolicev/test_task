@@ -14,7 +14,7 @@ public class MonsterThread extends Thread {
     public MonsterThread(Player player, JPanel panel) {
         this.player = player;
         this.panel = panel;
-        monster = new Monster(5, 5, 1, 3, 40, 1);
+        monster = new Monster(1, 5, 1, 3, 10, 1);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class MonsterThread extends Thread {
                 else if (r < 3) monster.block();
                 if (player.isDead()) return;
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(1200);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
