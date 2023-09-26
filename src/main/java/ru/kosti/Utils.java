@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Utils {
+    // Для текста по центру экрана
     public static void drawText(int textSize, String text, JPanel component, Graphics2D g2d) {
-        Font font = new Font("Arial", Font.BOLD, 24);
+        Font font = new Font("Arial", Font.BOLD, textSize);
         g2d.setFont(font);
 
         FontMetrics fontMetrics = g2d.getFontMetrics();
@@ -18,4 +19,5 @@ public class Utils {
         g2d.setColor(Color.BLACK);
         g2d.drawString(text, x, y);
     }
+
 }

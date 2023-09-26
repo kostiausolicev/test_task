@@ -1,6 +1,7 @@
 package ru.kosti.screens;
 
 import ru.kosti.MainFrame;
+import ru.kosti.MonsterThread;
 import ru.kosti.entities.extended.Player;
 
 import javax.swing.*;
@@ -14,12 +15,15 @@ public class GameScreen extends JPanel {
     private final MonsterThread monsterActions;
     private final Player player;
     private final MainFrame frame;
-    private final Font font = new Font("Arial", Font.BOLD, 14);
+    private final Font font;
+    private String playerActionString;
+    private String monsterActionString;
 
     public GameScreen(final JFrame frame) {
         this.frame = (MainFrame) frame;
         player = new Player(20, 20, 1, 20, 100);
         monsterActions = new MonsterThread(player, this);
+        font = new Font("Arial", Font.BOLD, 12);
         this.setFocusable(true);
         this.requestFocus();
         this.addListeners();
@@ -30,11 +34,19 @@ public class GameScreen extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 super.keyTyped(e);
-                // TODO Сделать вывод последнего действия на экран посередине
                 switch (e.getKeyChar()) {
-                    case 'a' -> player.hit(monsterActions.getMonster());
-                    case 'b' -> player.block();
-                    case 'h' -> player.healing();
+                    case 'a' -> {
+                        player.hit(monsterActions.getMonster());
+                        playerActionString = "Игрок ударил монстра";
+                    }
+                    case 'b' -> {
+                        player.block();
+                        playerActionString = "Игрок блокирует";
+                    }
+                    case 'h' -> {
+                        player.healing();
+                        playerActionString = "Игрок подлечился";
+                    }
                 }
                 repaint();
             }
@@ -51,6 +63,19 @@ public class GameScreen extends JPanel {
 
     private void start() {
         monsterActions.start();
+    }
+
+    private void drawMotion(Graphics2D g2d) {
+        FontMetrics fontMetrics = g2d.getFontMetrics();
+        g2d.setFont(font);
+        if (playerActionString != null) g2d.drawString(playerActionString,
+                (this.getWidth() - fontMetrics.stringWidth(playerActionString)) / 2,
+                150);
+        if (monsterActionString != null) {
+            g2d.drawString(monsterActionString,
+                    (this.getWidth() - fontMetrics.stringWidth(monsterActionString)) / 2,
+                    180);
+        }
     }
 
     private void drawPlayer(Graphics2D g2d) {
@@ -97,10 +122,14 @@ public class GameScreen extends JPanel {
             return;
         }
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setFont(font);
         drawArea(g2d);
         drawHealthStatus(g2d);
         drawPlayer(g2d);
         drawMonster(g2d);
+        drawMotion(g2d);
+    }
+
+    public void setMonsterActionString(String string) {
+        monsterActionString = string;
     }
 }

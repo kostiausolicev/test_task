@@ -36,12 +36,16 @@ public abstract class AbstractEntity {
     public abstract AbstractEntity update();
 
     public void block() {
-        // TODO Сделать блокирование
+        this.block = true;
     }
 
     public void hit(AbstractEntity entity) {
         if (block) {
             block = false;
+            return;
+        }
+        if (entity.block) {
+            entity.block = false;
             return;
         }
         var successHit = false;
