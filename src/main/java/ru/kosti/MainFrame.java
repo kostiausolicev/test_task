@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
         cardPanel = new JPanel(cardLayout);
         cardPanel.add("Hello", new HelloScreen(this));
         cardPanel.add("Game", new GameScreen(this));
-        cardPanel.add("Win", new FinalScreen());
+        cardPanel.add("Final", new FinalScreen(this));
         this.add(cardPanel);
     }
 
